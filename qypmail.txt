@@ -1,0 +1,46 @@
+
+QYPMAIL:
+
+A local mail delivery agent for OS/2 sendmail.  QYPMAIL will deliver mail
+locally on a per user basis.  Each user can then have their own 
+subdirectory with their mail in it.  It is capable of generating (or not
+generating) LAMAIL compatible index files.  Each user can also specify an
+optional command to be executed upon receipt of mail.
+
+Installation:
+
+Put QYPMAIL.EXE in your \TCPIP\BIN directory.
+
+Put QYPMAIL.CFG in your ETC directory.  Usually C:\MPTN\ETC or C:\TCPIP\ETC.
+check the ETC environment variable.
+
+Edit the sendmail.cf file to change the local delivery specification.  This
+line start with Mlocal.  Change it to be the following:
+
+Mlocal, P=d:\tcpip\bin\qypmail.exe, F=lsDFP,  S=10, R=20, A=qypmail $u
+
+Edit the QYPMAIL.CFG file for your users.  The syntax of each line is
+<userid>,<mail directory>,<Update Inbox (Y/N)>,<Command>.  Any line
+not containing 3 commas is considered a comment.
+
+The user default defines the behavior when mail arrives for an  otherwise
+undefined user.  This could be used to automatically bounce mail for
+example.
+
+The Update Inbox filed must be either an uppercase 'Y' or 'N'.
+
+The command in the command field is executed after the mail is written
+to disk, and may contain the following 2 macros:
+
+%N gets replaced with the fully qualified pathname of the file that
+mail was stored in.
+
+%F gets replaced with the sender's email address.
+
+These marcos are case sensitive, so %n and %N are not the same!
+
+The command filed may be left blank, but the comma delimeter is required.
+So if no command is needed simply end the line there.  For example:
+
+joe,d:\joe\mail,N,
+
